@@ -2,6 +2,9 @@ import { useState } from 'react'
 import './App.css'
 import { guess, startGame, restart } from './axios'
 
+
+
+
 function App() {
   const [hasStarted, setHasStarted] = useState(false)
   const [hasWon, setHasWon] = useState(false)
@@ -48,7 +51,14 @@ function App() {
           <button
             // TODO: use async/await to call guess(number),
             // process the response to set the proper state values
-            onClick={}
+            onClick={async() => {
+                let msg  = await guess(number);
+                setStatus(msg);
+                if(msg === "Bingo!")
+                  setHasWon(true)
+              }
+            }
+            
             disabled={!number}
           >
             guess!

@@ -20,15 +20,31 @@ router.post('/start', (_, res) => {
 
 router.get('/guess', (req, res) => {
   const number = getNumber()
+
   const guessed = roughScale(req.query.number, 10)
 
-  if (guessed !== 0 && !guessed) {
+  if (guessed !== 0 && !guessed)
     res.status(500).send({ msg: 'No number provided.' })
-  }
+  else if(guessed < number)
+    res.status(200).send({msg: 'Guess Bigger!'})
+  else if(guessed > number)
+    res.status(200).send({msg: 'Guess Smaller!'})
+  else if(guessed === number)
+    res.status(200).send({msg: 'Bingo!'})
+  else
+    res.status(404).send({msg: 'Something goes wrong'})
 
+  
   // TODO: checked if number and guessed are the same, response with some hint
 })
 
+
 // TODO: add router.post('/restart',...)
+
+router.post('/restart', (_, res) => {
+  getNumber(true)
+
+  res.json({ msg: 'The game has restarted.' })
+})
 
 export default router
